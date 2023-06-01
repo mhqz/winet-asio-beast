@@ -17,6 +17,7 @@
 #include <defer.h>
 #include <response_part.h>
 #include <session.h>
+#include <util.h>
 #include <util/bytes.h>
 #include <util/file_io.h>
 #include <util/str.h>
