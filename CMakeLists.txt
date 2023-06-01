@@ -143,7 +143,7 @@ target_link_libraries(client
 #        lib::zdnsparser
 #        lib::gcrypt
 #        lib::json
-#        lib::uri
+        lib::uri
 #        OpenSSL::Crypto
 ##        ouinet::lampshade-asio
 #        ouinet::ouiservice-i2p
