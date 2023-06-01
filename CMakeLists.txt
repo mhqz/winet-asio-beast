@@ -118,7 +118,7 @@ file(GLOB client_sources
 #    "./src/util/temp_file.cpp"
 #    "./src/util/hash.cpp"
 #    "./src/util/reachability.cpp"
-#    "./src/util.cpp"
+    "./src/util.cpp"
 #    "./src/util/handler_tracker.cpp"
 #    "./src/doh.cpp"
 #    "./src/http_util.cpp"
