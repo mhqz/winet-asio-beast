@@ -3,7 +3,7 @@
 #include <boost/asio/spawn.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/asio/write_at.hpp>
-#include <boost/asio/windows/random_access_handle.hpp>
+#include "../lib/asio/windows/random_access_handle.hpp"
 #include <boost/filesystem.hpp>
 
 namespace asio = boost::asio;
@@ -11,7 +11,7 @@ namespace errc = boost::system::errc;
 namespace fs = boost::filesystem;
 namespace sys = boost::system;
 
-using aio_file_t = boost::asio::windows::random_access_handle;
+using aio_file_t = boost::asio::random_access_handle_extended;
 using native_handle_t = HANDLE;
 
 using Cancel = ouinet::Signal<void()>;
