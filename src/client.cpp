@@ -11,7 +11,7 @@ namespace errc = boost::system::errc;
 namespace fs = boost::filesystem;
 namespace sys = boost::system;
 
-using aio_file_t = boost::asio::random_access_handle_extended;
+using aio_file_t = boost::asio::windows::basic_random_access_handle_extended<>;
 using native_handle_t = HANDLE;
 
 using Cancel = ouinet::Signal<void()>;
