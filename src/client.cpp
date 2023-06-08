@@ -11,7 +11,7 @@ namespace errc = boost::system::errc;
 namespace fs = boost::filesystem;
 namespace sys = boost::system;
 
-using aio_file_t = boost::asio::windows::basic_random_access_handle_extended<>;
+using aio_file_t = random_access_handle_extended;
 using native_handle_t = HANDLE;
 
 using Cancel = ouinet::Signal<void()>;
@@ -33,7 +33,7 @@ int main() {
                                     FILE_FLAG_OVERLAPPED | FILE_FLAG_SEQUENTIAL_SCAN, // FlagsAndAttributes
                                     NULL);                              // TemplateFile
 
-        aio_file_t aio_file = aio_file_t(ctx.get_executor());
+        aio_file_t aio_file = aio_file_t(ctx);
         if (file != INVALID_HANDLE_VALUE) {
             aio_file.assign(file);
 
