@@ -9,7 +9,8 @@
 #include "boost/asio/windows/random_access_handle.hpp"
 #include <boost/asio/detail/config.hpp>
 
-using io_service = boost::asio::io_service;
+using io_context = boost::asio::io_context;
+using executor = boost::asio::executor;
 
 //namespace boost {
 //namespace asio {
@@ -18,9 +19,11 @@ using io_service = boost::asio::io_service;
 //template <typename Executor = boost::asio::any_io_executor>
 class basic_random_access_handle_extended : public boost::asio::windows::random_access_handle {
 public:
-  basic_random_access_handle_extended(io_service &service)
-      : boost::asio::windows::random_access_handle(service) {}
+  basic_random_access_handle_extended(io_context &ctx)
+      : boost::asio::windows::random_access_handle(ctx) {}
 
+  basic_random_access_handle_extended(executor exe)
+      : boost::asio::windows::random_access_handle(exe) {}
 };
 typedef basic_random_access_handle_extended random_access_handle_extended;
 
