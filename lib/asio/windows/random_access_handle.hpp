@@ -51,12 +51,27 @@ public:
       return init.result.get();
   }
 
-  std::size_t async_write_some(
-          boost::asio::const_buffer buffer, boost::system::error_code& ec)
+  template <typename ConstBufferSequence, typename WriteHandler>
+  BOOST_ASIO_INITFN_RESULT_TYPE(WriteHandler,
+                                void (boost::system::error_code, std::size_t))
+  async_write_some(const ConstBufferSequence& buffers,
+                   BOOST_ASIO_MOVE_ARG(WriteHandler) handler)
   {
-      auto offset = current_position(ec);
-      return this->impl_.get_service().write_some_at(
-              this->impl_.get_implementation(), offset, buffer, ec);
+      // If you get an error on the following line it means that your handler does
+      // not meet the documented type requirements for a WriteHandler.
+      BOOST_ASIO_WRITE_HANDLER_CHECK(WriteHandler, handler) type_check;
+
+      boost::system::error_code ec;
+      auto offset = end_position(ec);
+      boost::asio::async_completion<WriteHandler,
+              void (boost::system::error_code, std::size_t)> init(handler);
+
+      this->impl_.get_service().async_write_some_at(
+              this->impl_.get_implementation(), offset,
+              buffers, init.completion_handler,
+              this->impl_.get_implementation_executor());
+
+      return init.result.get();
   }
 
   static
@@ -79,6 +94,22 @@ public:
 
       return offset;
   }
+
+  size_t
+  end_position(error_code& ec)
+  {
+      native_handle_t native_handle = this->native_handle();
+      auto offset = SetFilePointer(native_handle, 0, NULL, FILE_END);
+      if(INVALID_SET_FILE_POINTER ==  offset)
+      {
+          ec = last_error();
+          if (!ec) ec = make_error_code(errc::no_message);
+          return size_t(-1);
+      }
+
+      return offset;
+  }
+
 };
 typedef basic_random_access_handle_extended random_access_handle_extended;
 
