@@ -28,6 +28,29 @@ public:
   basic_random_access_handle_extended(executor exe)
       : boost::asio::windows::random_access_handle(exe) {}
 
+  template <typename MutableBufferSequence, typename ReadHandler>
+  BOOST_ASIO_INITFN_RESULT_TYPE(ReadHandler,
+                                void (boost::system::error_code, std::size_t))
+  async_read_some(const MutableBufferSequence& buffers,
+                  BOOST_ASIO_MOVE_ARG(ReadHandler) handler)
+  {
+      // If you get an error on the following line it means that your handler does
+      // not meet the documented type requirements for a ReadHandler.
+      BOOST_ASIO_READ_HANDLER_CHECK(ReadHandler, handler) type_check;
+
+      boost::system::error_code ec;
+      auto offset = current_position(ec);
+      boost::asio::async_completion<ReadHandler,
+              void (boost::system::error_code, std::size_t)> init(handler);
+
+      this->impl_.get_service().async_read_some_at(
+              this->impl_.get_implementation(), offset,
+              buffers, init.completion_handler,
+              this->impl_.get_implementation_executor());
+
+      return init.result.get();
+  }
+
   std::size_t async_write_some(
           boost::asio::const_buffer buffer, boost::system::error_code& ec)
   {

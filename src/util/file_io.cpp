@@ -1,5 +1,4 @@
 #include <boost/asio/read.hpp>
-#include <boost/asio/read_at.hpp>
 #include <boost/asio/write.hpp>
 #include <boost/asio/write_at.hpp>
 
@@ -208,7 +207,7 @@ read(async_file_handle& f
 {
     auto cancel_slot = cancel.connect([&] { f.close(); });
     sys::error_code ec;
-    asio::async_read_at(f, 0, b, yield[ec]);
+    asio::async_read(f, b, yield[ec]);
     return_or_throw_on_error(yield, cancel, ec);
 }
 
