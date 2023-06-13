@@ -6,7 +6,6 @@
 
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/read.hpp>
-#include <boost/asio/read_at.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/beast/core/static_buffer.hpp>
 #include <boost/beast/http/empty_body.hpp>
@@ -501,7 +500,7 @@ private:
         }
 
         sys::error_code ec;
-        auto len = asio::async_read_at(bodyf, 0, asio::buffer(body_buffer), yield[ec]);
+        auto len = asio::async_read(bodyf, asio::buffer(body_buffer), yield[ec]);
         ec = compute_error_code(ec, cancel);
         if (ec == asio::error::eof) ec = {};
         if (ec) return or_throw(yield, ec, empty_cb);
