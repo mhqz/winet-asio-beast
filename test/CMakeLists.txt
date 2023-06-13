@@ -7,7 +7,12 @@ link_libraries(
 )
 
 add_executable(test_file_io
-    "test_file_io.cpp"
+        "test_file_io.cpp"
+        "../src/util/file_io.cpp"
+        "util/base_fixture.hpp")
+
+add_executable(test_persistent_lru_cache
+    "test_persistent_lru_cache.cpp"
     "../src/util/file_io.cpp"
     "util/base_fixture.hpp")
 
