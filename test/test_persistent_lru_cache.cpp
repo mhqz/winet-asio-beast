@@ -4,6 +4,7 @@
 #include <boost/filesystem.hpp>
 #include "util/signal.h"
 #include "util/file_io.h"
+#include "util/persistent_lru_cache.h"
 #include "../test/util/base_fixture.hpp"
 
 namespace asio = boost::asio;

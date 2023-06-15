@@ -14,7 +14,10 @@ add_executable(test_file_io
 add_executable(test_persistent_lru_cache
     "test_persistent_lru_cache.cpp"
     "../src/util/file_io.cpp"
+    "../src/util/persistent_lru_cache.cpp"
+    "../src/util/hash.cpp"
     "util/base_fixture.hpp")
+target_link_libraries(test_persistent_lru_cache lib::gcrypt)
 
 add_executable(test-http-store
     "test_http_store.cpp"
